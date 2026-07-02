@@ -90,26 +90,6 @@ function CreatePostForm() {
             )}
           </div>
 
-          <div>
-            <label className="mb-1.5 block text-xs font-black uppercase tracking-wide text-slate-700">
-              User ID
-            </label>
-
-            <input
-              type="number"
-              {...register("userId", { valueAsNumber: true })}
-              disabled={createPostMutation.isPending}
-              placeholder="1"
-              className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-slate-400 disabled:cursor-not-allowed disabled:bg-slate-100"
-            />
-
-            {errors.userId && (
-              <p className="mt-1 text-xs font-semibold text-red-600">
-                {errors.userId.message}
-              </p>
-            )}
-          </div>
-
           <div className="flex justify-end pt-2">
             <button
               type="submit"
