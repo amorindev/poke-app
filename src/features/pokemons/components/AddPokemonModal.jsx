@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { schema } from "../../features/pokemons/validations/validation";
+import { schema } from "../validations/validation";
 import { useMutation } from "@tanstack/react-query";
-import { create } from "../../features/pokemons/api/create";
+import { create } from "../api/create";
+import SaveButton from "./SaveButton";
 
 function AddPokemonModal({ open, onClose }) {
   const {
@@ -97,38 +98,7 @@ function AddPokemonModal({ open, onClose }) {
               Cancel
             </button>
 
-            <button
-              type="submit"
-              disabled={createPokemonMutation.isPending}
-              className="flex min-w-28 items-center justify-center rounded-md bg-slate-900 px-4 py-2 font-black text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {createPokemonMutation.isPending ? (
-                <>
-                  <svg
-                    className="mr-2 h-4 w-4 animate-spin"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      className="opacity-25"
-                    />
-                    <path
-                      fill="currentColor"
-                      className="opacity-75"
-                      d="M22 12a10 10 0 00-10-10v4a6 6 0 016 6h4z"
-                    />
-                  </svg>
-                  Saving...
-                </>
-              ) : (
-                "Save"
-              )}
-            </button>
+            <SaveButton createPokemonMutation={createPokemonMutation} />
           </div>
         </form>
       </div>

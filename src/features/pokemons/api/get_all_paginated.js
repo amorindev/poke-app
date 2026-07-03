@@ -1,7 +1,7 @@
-import { api } from "../../../config/api";
+import { apiPokemon } from "../../../config/api";
 
 export const getAllPaginated = async (limit, offset) => {
-  const { data } = await api.get(`/pokemon?limit=${limit}&offset=${offset}`);
+  const { data } = await apiPokemon.get(`/pokemon?limit=${limit}&offset=${offset}`);
   console.log(data);
   return data;
 };

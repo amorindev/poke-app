@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Pokemon from "../pokemons/Pokemon";
+import Pokemon from "../../features/pokemons/components/Pokemon";
 import { getByType } from "../../features/pokemons/api/get_by_type";
 import { Link } from "react-router";
-import AddPokemonModal from "../pokemons/AddPokemonModal";
+import AddPokemonModal from "../../features/pokemons/components/AddPokemonModal";
 import { getAllPaginated } from "../../features/pokemons/api/get_all_paginated";
 
 function HomePage() {
@@ -70,12 +70,6 @@ function HomePage() {
           <option value="electric">Electric</option>
         </select>
 
-        <button
-          onClick={() => setOpenModal(true)}
-          className="rounded-md bg-slate-900 px-4 py-2 font-black text-white transition hover:bg-slate-800"
-        >
-          Agregar
-        </button>
       </div>
 
       {isLoading && (

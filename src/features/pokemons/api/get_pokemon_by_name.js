@@ -1,6 +1,6 @@
-import { api } from "../../../config/api";
+import {  apiPokemon } from "../../../config/api";
 
 export const getPokemonByName = async (name) => {
-  const { data } = await api.get(`/pokemon/${name}`);
+  const { data } = await apiPokemon.get(`/pokemon/${name}`);
   return data;
 };

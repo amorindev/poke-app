@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPokemon } from "../../features/pokemons/api/get_pokemon";
+import { getPokemon } from "../api/get_pokemon";
 
 function Pokemon({ pokeUrl }) {
   const {

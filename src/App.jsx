@@ -2,7 +2,7 @@ import "./App.css";
 import { Route, Routes } from "react-router";
 import HomePage from "./components/pages/HomePage";
 import Placeholder from "./components/pages/Placeholder";
-import PokemonDetail from "./components/pokemons/PokemonDetail";
+import PokemonDetail from "./features/pokemons/components/PokemonDetail";
 import MainLayout from "./components/layout/MainLayout";
 
 function App() {

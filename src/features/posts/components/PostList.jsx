@@ -1,7 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPosts } from "../../features/posts/local-storage/get_posts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getPosts } from "../local-storage/get_posts";
+import { deletePost } from "../api/delete";
+import PostCard from "./PostCard";
+import { toast } from "sonner";
 
-function PostList() {
+function PostList({ onEdit }) {
+  const queryClient = useQueryClient();
+
   const {
     data: posts = [],
     isLoading,
@@ -12,8 +17,19 @@ function PostList() {
     queryFn: getPosts,
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: deletePost,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
+      toast.success("Post successfully deleted.");
+    },
+  });
+
   return (
-    <section className="mt-8">
+    <section className="mt-10">
       {isLoading && (
         <div className="flex justify-center py-20">
           <span className="loading loading-spinner loading-lg"></span>
@@ -22,7 +38,7 @@ function PostList() {
 
       {isError && (
         <div className="rounded-lg bg-red-100 p-4 text-red-700">
-          {error?.message || "Error loading posts."}
+          {error?.message}
         </div>
       )}
 
@@ -33,20 +49,14 @@ function PostList() {
       )}
 
       {!isLoading && !isError && posts.length > 0 && (
-        <div className="space-y-4">
+        <div className="flex flex-wrap justify-center gap-6">
           {posts.map((post) => (
-            <div
+            <PostCard
               key={post.id}
-              className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
-            >
-              <h2 className="text-lg font-bold text-slate-800">{post.title}</h2>
-
-              <p className="mt-2 text-slate-600">{post.body}</p>
-
-              <p className="mt-4 text-sm font-medium text-slate-400">
-                User #{post.userId}
-              </p>
-            </div>
+              post={post}
+              onEdit={onEdit}
+              deleteMutation={deleteMutation}
+            />
           ))}
         </div>
       )}
