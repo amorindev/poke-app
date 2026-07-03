@@ -43,6 +43,7 @@
 
    ```env
    VITE_POKEAPI_BASE_URL=https://pokeapi.co/api/v2
+   VITE_JSON_PLACEHOLDER_BASE_URL=https://jsonplaceholder.typicode.com
    ```
 
 4. **Iniciar el servidor de desarrollo:**
