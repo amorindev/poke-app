@@ -42,7 +42,6 @@ function PokemonDetail() {
 
   return (
     <main className="min-h-screen bg-slate-100 px-10 py-8">
-      {/* BACK */}
       <div className="mb-8">
         <Link
           onClick={() => navigate(-1)}
@@ -52,11 +51,8 @@ function PokemonDetail() {
         </Link>
       </div>
 
-      {/* LAYOUT */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh]">
-        {/* LEFT SIDE */}
         <div className="flex flex-col gap-8">
-          {/* HEADER */}
           <div>
             <p className="text-xs font-black uppercase text-slate-400">
               #{data.id}
@@ -71,7 +67,6 @@ function PokemonDetail() {
             </p>
           </div>
 
-          {/* TYPES */}
           <div className="flex flex-wrap gap-3">
             {data.types.map(({ type }) => (
               <span
@@ -83,7 +78,6 @@ function PokemonDetail() {
             ))}
           </div>
 
-          {/* STATS */}
           <div className="grid grid-cols-3 gap-6 text-slate-700">
             <div>
               <p className="text-xs text-slate-500">Height</p>
@@ -101,7 +95,6 @@ function PokemonDetail() {
             </div>
           </div>
 
-          {/* ABILITIES */}
           <div>
             <p className="text-xs font-black uppercase text-slate-400 mb-2">
               Abilities
@@ -119,7 +112,6 @@ function PokemonDetail() {
             </div>
           </div>
 
-          {/* MOVES (simple list, no card) */}
           <div>
             <p className="text-xs font-black uppercase text-slate-400 mb-2">
               Moves
@@ -138,7 +130,6 @@ function PokemonDetail() {
           </div>
         </div>
 
-        {/* RIGHT SIDE (IMAGE BIG) */}
         <div className="flex items-center justify-center">
           <motion.img
             layoutId={`pokemon-image-${data.name}`}
