@@ -27,7 +27,7 @@ function Placeholder() {
 
   return (
     <>
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-end mt-6">
         <button
           onClick={handleOpenCreate}
           className="rounded-md bg-slate-900 px-4 py-2 text-white font-bold"

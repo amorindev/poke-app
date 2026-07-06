@@ -4,7 +4,7 @@ import { apiJSONPlaceholder } from "../../../config/api";
 
 export const createPost = async (newPost) => {
   // userid burned for example.
-  const userId = "1";
+  const userId = 1;
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -21,9 +21,9 @@ export const createPost = async (newPost) => {
   }
 
   const post = {
-    ...newPost,
-    id: id,
     userId,
+    id: id,
+    ...newPost,
   };
 
   posts.push(post);
