@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Pokemon from "../../features/pokemons/components/Pokemon";
 import { getByType } from "../../features/pokemons/api/get_by_type";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import AddPokemonModal from "../../features/pokemons/components/AddPokemonModal";
 import { getAllPaginated } from "../../features/pokemons/api/get_all_paginated";
 
@@ -90,9 +90,7 @@ function HomePage() {
       {pokemons && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {pokemons.map((p) => (
-            <Link key={p.name} to={`/pokemon/${p.name}`}>
-              <Pokemon pokeUrl={p.url} />
-            </Link>
+            <Pokemon pokeUrl={p.url} key={p.name} />
           ))}
         </div>
       )}

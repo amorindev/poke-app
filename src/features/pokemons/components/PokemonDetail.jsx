@@ -1,11 +1,15 @@
-import { useParams } from "react-router";
+import { useParams, Link, useLocation, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "motion/react";
 import { getPokemonByName } from "../api/get_pokemon_by_name";
 import PokemonDetailSkeleton from "./PokemonDetailSkeleton";
-import PokemonDetailCard from "./PokemonDetailCard";
 
 function PokemonDetail() {
   const { name } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const pokemonParam = location.state?.pokemon;
 
   const {
     data: pokemon,
@@ -14,27 +18,140 @@ function PokemonDetail() {
     error,
   } = useQuery({
     queryKey: ["pokemon", name],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      return await getPokemonByName(name);
-    },
+    queryFn: () => getPokemonByName(name),
+    enabled: !pokemonParam,
   });
 
+  const data = pokemonParam ?? pokemon;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <PokemonDetailSkeleton />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center text-red-600">
+        {error.message}
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
-      <article className="w-full max-w-md flex flex-col justify-between rounded-md border border-slate-200 bg-white p-4 shadow-sm">
-        {isLoading && <PokemonDetailSkeleton />}
+    <main className="min-h-screen bg-slate-100 px-10 py-8">
+      {/* BACK */}
+      <div className="mb-8">
+        <Link
+          onClick={() => navigate(-1)}
+          className="text-sm font-semibold text-slate-600 hover:text-slate-900"
+        >
+          ← Back
+        </Link>
+      </div>
 
-        {isError && (
-          <div className="rounded-md bg-red-100 p-2 text-sm text-red-700">
-            {error.message}
+      {/* LAYOUT */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh]">
+        {/* LEFT SIDE */}
+        <div className="flex flex-col gap-8">
+          {/* HEADER */}
+          <div>
+            <p className="text-xs font-black uppercase text-slate-400">
+              #{data.id}
+            </p>
+
+            <h1 className="text-5xl font-black capitalize text-slate-900">
+              {data.name}
+            </h1>
+
+            <p className="mt-2 text-slate-500 font-semibold">
+              XP {data.base_experience ?? 0}
+            </p>
           </div>
-        )}
 
-        {pokemon && <PokemonDetailCard pokemon={pokemon} />}
-      </article>
-    </div>
+          {/* TYPES */}
+          <div className="flex flex-wrap gap-3">
+            {data.types.map(({ type }) => (
+              <span
+                key={type.name}
+                className="text-sm font-black uppercase text-slate-700"
+              >
+                {type.name}
+              </span>
+            ))}
+          </div>
+
+          {/* STATS */}
+          <div className="grid grid-cols-3 gap-6 text-slate-700">
+            <div>
+              <p className="text-xs text-slate-500">Height</p>
+              <p className="text-2xl font-black">{data.height}</p>
+            </div>
+
+            <div>
+              <p className="text-xs text-slate-500">Weight</p>
+              <p className="text-2xl font-black">{data.weight}</p>
+            </div>
+
+            <div>
+              <p className="text-xs text-slate-500">XP</p>
+              <p className="text-2xl font-black">{data.base_experience}</p>
+            </div>
+          </div>
+
+          {/* ABILITIES */}
+          <div>
+            <p className="text-xs font-black uppercase text-slate-400 mb-2">
+              Abilities
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              {data.abilities.map(({ ability }) => (
+                <span
+                  key={ability.name}
+                  className="text-sm font-semibold text-slate-700"
+                >
+                  {ability.name}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* MOVES (simple list, no card) */}
+          <div>
+            <p className="text-xs font-black uppercase text-slate-400 mb-2">
+              Moves
+            </p>
+
+            <div className="flex flex-wrap gap-2 max-h-40 overflow-auto pr-2">
+              {data.moves.slice(0, 20).map(({ move }) => (
+                <span
+                  key={move.name}
+                  className="text-xs font-medium text-slate-600"
+                >
+                  {move.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE (IMAGE BIG) */}
+        <div className="flex items-center justify-center">
+          <motion.img
+            layoutId={`pokemon-image-${data.name}`}
+            src={data.sprites.other["official-artwork"].front_default}
+            alt={data.name}
+            className="w-105 h-105 object-contain drop-shadow-xl"
+            style={{
+              viewTransitionName: `pokemon-${data.name}`,
+            }}
+          />
+        </div>
+      </section>
+    </main>
   );
 }
 
