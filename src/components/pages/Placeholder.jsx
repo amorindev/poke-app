@@ -18,7 +18,6 @@ function Placeholder() {
   };
 
   const handleEdit = (post) => {
-    console.log(post);
     setEditingPost(post);
     setOpen(true);
   };

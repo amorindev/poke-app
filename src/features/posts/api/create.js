@@ -4,12 +4,13 @@ import { apiJSONPlaceholder } from "../../../config/api";
 
 export const createPost = async (newPost) => {
   // userid burned for example.
-  const userId = 1;
+  const userId = 10;
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const { data } = await apiJSONPlaceholder.post("/posts", newPost);
   console.log(data);
+  console.log(newPost);
 
   const posts = getPosts();
 
@@ -17,16 +18,19 @@ export const createPost = async (newPost) => {
   if (posts.length === 0) {
     id = 1;
   } else {
-    id = posts[posts.length - 1].id + 1;
+    id = posts[0].id + 1;
+    // We use this if we do a push, that is, if we add at the end
+    // id = posts[posts.length - 1].id + 1;
   }
 
   const post = {
-    userId,
+    userId: userId,
     id: id,
-    ...newPost,
+    title: data.title,
+    body: data.body,
   };
 
-  posts.push(post);
+  posts.unshift(post);
 
   savePosts(posts);
 

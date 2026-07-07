@@ -5,18 +5,21 @@ import { savePosts } from "../local-storage/create";
 export const getAllPosts = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  // Revisamos si ya existen en localStorage
+  // We check if they already exist in localStorage
   const localPosts = getPosts();
 
   if (localPosts.length > 0) {
     return localPosts;
   }
 
-  // Si no existen, los obtenemos de la API
+  // If they don't exist, we get them from the API
   const { data } = await apiJSONPlaceholder.get("/posts");
 
-  // Guardarlos en localStorage
-  savePosts(data);
+  // permite agregar los post creados al inicio
+  const posts = [...data].reverse();
+
+  // save in localStorage
+  savePosts(posts);
 
   return data;
 };
